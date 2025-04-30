@@ -6,7 +6,7 @@
 #    By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/20 02:23:03 by frey-gal          #+#    #+#              #
-#    Updated: 2025/04/20 02:27:49 by frey-gal         ###   ########.fr        #
+#    Updated: 2025/04/30 18:22:00 by frey-gal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,9 @@ NAME		= philosphers
 CC			= cc
 CFLAGS		= #-Wall -Wextra -Werror -fsanitize=address #-g
 
-SRC			= srcs/main.c
+SRC			= srcs/main.c \
+			  srcs/helpers.c \
+			  srcs/error_handling.c
 
 OBJ			= $(SRC:.c=.o)
 
