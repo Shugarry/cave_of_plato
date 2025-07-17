@@ -1,29 +1,41 @@
 #include "../philosphers.h"
 
-void	init_dinner(t_dinnertable *dinnertable, int ac, char **av)
+void	init_philo_list(t_dinnertable *dinnertable)
 {
-	if (ac == 6)
-		dinnertable->n_meals = atoi(av[5]);
-	dinnertable->n_philos;
-	dinnertable->tt_die;
-	dinnertable->tt_eat;
-	dinnertable->tt_sleep;
+	int	i;
+	t_plato *tmp;
+	
+	i = dinnertable->n_philos - 1;
+	while (i >= 0)
+	{
+		tmp = memlist_alloc(dinnertable, sizeof(t_plato));
+		tmp->id = i;
+		tmp->next = dinnertable->philos;
+		dinnertable->philos = tmp;
+		i--;
+	}
+	tmp = dinnertable->philos;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = dinnertable->philos;
 }
 
 int main(int ac, char **av)
 {
 	t_dinnertable	dinnertable;
 
-	if (ac != 6 || ac != 5)
+	if (ac != 6 && ac != 5)
+		input_error();
+	ft_bzero(&dinnertable, sizeof(t_dinnertable));
+	validate_and_parse(&dinnertable, av);
+	init_philo_list(&dinnertable);
+	int i = 0;
+	for (t_plato *node = dinnertable.philos; node; node = node->next)
 	{
-		printf("Invalid args, format: ./philosphers a b c d e\n");
-		printf("a: number of philosophers\n");
-		printf("b: time to die\n");
-		printf("c: time to eat\n");
-		printf("d: time to sleep\n");
-		printf("e: number of times philosophers must eat (optional)\n");
-		exit(EXIT_FAILURE);
+		if (i > dinnertable.n_philos)
+			break;
+		printf("node: %d, philo: %d\n", i, node->id);
+		i++;
 	}
-
-	init_dinner(&dinnertable);
+	plato_exit(&dinnertable, NULL, EXIT_SUCCESS);
 }

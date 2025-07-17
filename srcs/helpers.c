@@ -6,11 +6,46 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:10:57 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/04/29 19:51:41 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:24:09 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosphers.h"
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int	ft_isdigit(int c)
+{
+	if ((c > 47 && c < 58))
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c > 64 && c < 91) || (c > 96 && c < 123))
+		return (1);
+	else
+		return (0);
+}
+
+void    ft_bzero(void *s, size_t n)
+{
+	char    *ptr;
+
+	ptr = s;
+	while (n--)
+		*ptr++ = '\0';
+}
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -43,9 +78,9 @@ int	ft_atoi(const char *nptr)
 		nptr++;
 	else if (*nptr == '-')
 	{
-		nptr++;
-		flag++;
-	}
+	nptr++;
+	flag++;
+}
 	while (*nptr > 47 && *nptr < 58)
 	{
 		n *= 10;

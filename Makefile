@@ -6,7 +6,7 @@
 #    By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/20 02:23:03 by frey-gal          #+#    #+#              #
-#    Updated: 2025/04/20 02:27:49 by frey-gal         ###   ########.fr        #
+#    Updated: 2025/07/17 18:16:50 by frey-gal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,14 @@
 
 NAME		= philosphers
 CC			= cc
-CFLAGS		= #-Wall -Wextra -Werror -fsanitize=address #-g
+CFLAGS		= -Wall -Wextra -Werror -fsanitize=address #-g
 
-SRC			= srcs/main.c
+SRC			= $(addprefix srcs/, main.c helpers.c lists.c memory.c error.c \
+			  parsing.c)
 
 OBJ			= $(SRC:.c=.o)
 
-INCLUDES 	= -I.
+INC 		= -I.
 
 HDR			= philosphers.h
 
@@ -28,22 +29,25 @@ HDR			= philosphers.h
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
+# Linking
+$(NAME): $(OBJ)
 	@echo "\n==> Linking $(NAME)..."
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-srcs/%.o: srcs/%.c $(HDR) Makefile
+# Compiling
+%.o: %.c $(HDR) Makefile
 	@echo " -> Compiling $<"
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
+# Cleaning
 clean:
 	@echo "\n==> Cleaning project..."
-	@rm -f $(OBJ)
+	@$(RM) $(OBJ)
 
 fclean: clean
 	@echo "\n==> Full clean..."
-	@rm -f $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
