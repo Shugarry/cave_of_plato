@@ -20,7 +20,7 @@ void	plato_exit(t_dinnertable *dinnertable, char *error_str, int error_num)
 	exit(error_num);
 }
 
-void	input_error(void)
+void	input_error(char *message)
 {
 	printf("Invalid args, format: ./philosphers a b c d e\n");
 	printf("a: number of philosophers\n");
@@ -28,16 +28,17 @@ void	input_error(void)
 	printf("c: time to eat\n");
 	printf("d: time to sleep\n");
 	printf("e: number of times philosophers must eat (optional)\n");
-	printf("All arguments must be integers above 0\n");
+	if (message)
+		printf("Error: %s\n", message);
 	exit(EXIT_FAILURE);
 }
 
 void	debug_vars(t_dinnertable *dinnertable)
 {
-	printf("a: %d\n", dinnertable->n_philos);
-	printf("b: %d\n", dinnertable->tt_die);
-	printf("c: %d\n", dinnertable->tt_eat);
-	printf("d: %d\n", dinnertable->tt_sleep);
-	printf("e: %d\n", dinnertable->n_meals);
+	printf("a: %ld\n", dinnertable->n_philos);
+	printf("b: %ld\n", dinnertable->tt_die);
+	printf("c: %ld\n", dinnertable->tt_eat);
+	printf("d: %ld\n", dinnertable->tt_sleep);
+	printf("e: %ld\n", dinnertable->n_meals);
 }
 

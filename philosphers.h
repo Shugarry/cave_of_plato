@@ -1,13 +1,25 @@
 #ifndef PHILOSPHERS_H
 # define PHILOSPHERS_H
 
+# include <pthread.h>
+# include <bits/pthreadtypes.h>
+# include <sys/time.h>
 # include <unistd.h>
 # include <stdbool.h>
 # include <stdlib.h>
 # include <limits.h>
 # include <stdio.h>
-# include <sys/time.h>
-# include <pthread.h>
+
+typedef enum e_mutex_opt
+{
+	LOCK,
+	UNLOCK,
+	INIT,
+	DESTROY,
+	CREATE,
+	JOIN,
+	DETACH
+}	t_mutex_opt;
 
 typedef struct s_list
 {
@@ -15,21 +27,35 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+typedef struct s_fork
+{
+	int				id;
+	pthread_mutex_t	fork;
+	struct s_fork	*next;
+}	t_fork;
+
 typedef struct s_plato
 {
-	int	id;
-	struct s_plato *next;
-} t_plato;
+	int				id;
+	int				n_meals;
+	bool			hungry;
+	long			t_lastmeal;
+	t_fork			*left;
+	t_fork			*right;
+	pthread_t		thread_id;
+	struct s_plato	*next;
+}	t_plato;
 
 typedef struct s_dinnertable
 {
-	int		n_philos;
-	int		n_meals;
-	int		tt_die;
-	int		tt_eat;
-	int		tt_sleep;
+	long	n_philos;
+	long	n_meals;
+	long	tt_die;
+	long	tt_eat;
+	long	tt_sleep;
 	t_list	*memlist;
 	t_plato	*philos;
+	t_fork	*forks;
 } t_dinnertable;
 
 // lists.c
@@ -56,7 +82,7 @@ void	validate_and_parse(t_dinnertable *dinnertable, char **av);
 
 // error.c
 void	plato_exit(t_dinnertable *dinnertable, char *error_str, int error_num);
-void	input_error(void);
+void	input_error(char *message);
 void	debug_vars(t_dinnertable *dinnertable);
 
 void	plato_exit(t_dinnertable *dinnertable, char *error_str, int error_num);

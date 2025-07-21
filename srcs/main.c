@@ -25,9 +25,10 @@ int main(int ac, char **av)
 	t_dinnertable	dinnertable;
 
 	if (ac != 6 && ac != 5)
-		input_error();
+		input_error("Incorrect argument amount");
 	ft_bzero(&dinnertable, sizeof(t_dinnertable));
 	validate_and_parse(&dinnertable, av);
+	init_fork_list(&dinnertable);
 	init_philo_list(&dinnertable);
 	int i = 0;
 	for (t_plato *node = dinnertable.philos; node; node = node->next)
