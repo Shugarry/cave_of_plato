@@ -9,8 +9,9 @@
 # include <stdlib.h>
 # include <limits.h>
 # include <stdio.h>
+# include <errno.h>
 
-typedef enum e_mutex_opt
+typedef enum e_opt
 {
 	LOCK,
 	UNLOCK,
@@ -19,7 +20,7 @@ typedef enum e_mutex_opt
 	CREATE,
 	JOIN,
 	DETACH
-}	t_mutex_opt;
+}	t_opt;
 
 typedef struct s_list
 {
@@ -31,7 +32,6 @@ typedef struct s_fork
 {
 	int				id;
 	pthread_mutex_t	fork;
-	struct s_fork	*next;
 }	t_fork;
 
 typedef struct s_plato
@@ -43,7 +43,6 @@ typedef struct s_plato
 	t_fork			*left;
 	t_fork			*right;
 	pthread_t		thread_id;
-	struct s_plato	*next;
 }	t_plato;
 
 typedef struct s_dinnertable
@@ -86,5 +85,10 @@ void	input_error(char *message);
 void	debug_vars(t_dinnertable *dinnertable);
 
 void	plato_exit(t_dinnertable *dinnertable, char *error_str, int error_num);
+
+// threads.c
+void	thread_handler(t_dinnertable *dinnertable, void *(*func)(void *),
+					void *data, pthread_t *thread, t_opt option);
+void	mutex_handler(t_dinnertable *dinnertable, pthread_mutex_t *mutex, t_opt option);
 
 #endif

@@ -14,10 +14,10 @@
 
 NAME		= philosphers
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -fsanitize=address #-g
+CFLAGS		= -Wall -Wextra -Werror -g #-fsanitize=address #-g
 
 SRC			= $(addprefix srcs/, main.c helpers.c lists.c memory.c error.c \
-			  parsing.c)
+			  parsing.c threads.c)
 
 OBJ			= $(SRC:.c=.o)
 

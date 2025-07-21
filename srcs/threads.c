@@ -12,23 +12,26 @@
 
 #include "../philosphers.h"
 
-bool	mutex_error(int status)
+bool	thread_error(int status)
 {
-	if (status == 0)
-		return (false);
-	else if (status == EAGAIN)
+	if (status == -1)
 		return (true);
 	else if (status == EINVAL)
 		return (true);
-	else if (status == EINVAL)
+	else if (status == EDEADLK)
 		return (true);
-	else if (status == EINVAL)
+	else if (status == EPERM)
 		return (true);
-	else if (status == EINVAL)
+	else if (status == ESRCH)
 		return (true);
+	else if (status == ENOMEM)
+		return (true);
+	else if (status == EBUSY)
+		return (true);
+	return (false);
 }
 
-void	mutex_handler(t_dinnertable *dinnertable, pthread_mutex_t *mutex, t_mutex_opt option)
+void	mutex_handler(t_dinnertable *dinnertable, pthread_mutex_t *mutex, t_opt option)
 {
 	int	status;
 
@@ -43,7 +46,26 @@ void	mutex_handler(t_dinnertable *dinnertable, pthread_mutex_t *mutex, t_mutex_o
 		status = pthread_mutex_destroy(mutex);
 	else
 		;
-	if (mutex_error(status) == true)
-		plato_exit(dinnertable, "Mutex error", errno);
+	if (thread_error(status) == true)
+		plato_exit(dinnertable, "Mutex error", status);
+		
+}
+
+void	thread_handler(t_dinnertable *dinnertable, void *(*func)(void *),
+					void *data, pthread_t *thread, t_opt option)
+{
+	int	status;
+
+	status = 0;
+	if (option == CREATE)
+		status = pthread_create(thread, NULL, func, data);
+	else if (option == JOIN)
+		status = pthread_join(*thread, NULL);
+	else if (option == DETACH)
+		status = pthread_detach(*thread);
+	else
+		;
+	if (thread_error(status) == true)
+		plato_exit(dinnertable, "Thread error", status);
 		
 }
