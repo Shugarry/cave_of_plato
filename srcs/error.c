@@ -12,9 +12,9 @@
 
 #include "../philosphers.h"
 
-void	plato_exit(t_dinnertable *dinnertable, char *error_str, int error_num)
+void	plato_exit(t_feast *feast, char *error_str, int error_num)
 {
-	ft_lstclear(&dinnertable->memlist, free);
+	ft_lstclear(&feast->memlist, free);
 	if (error_num && error_str)
 		perror(error_str);
 	exit(error_num);
@@ -33,12 +33,12 @@ void	input_error(char *message)
 	exit(EXIT_FAILURE);
 }
 
-void	debug_vars(t_dinnertable *dinnertable)
+void	debug_vars(t_feast *feast)
 {
-	printf("a: %ld philosophers\n", dinnertable->n_philos);
-	printf("b: %ld in microsecs\n", dinnertable->tt_die);
-	printf("c: %ld in microsecs\n", dinnertable->tt_eat);
-	printf("d: %ld in microsecs\n", dinnertable->tt_sleep);
-	printf("e: %ld times to eat\n", dinnertable->n_meals);
+	printf("a: %ld philosophers\n", feast->n_philos);
+	printf("b: %ld in microsecs\n", feast->tt_die);
+	printf("c: %ld in microsecs\n", feast->tt_eat);
+	printf("d: %ld in microsecs\n", feast->tt_sleep);
+	printf("e: %ld times to eat\n", feast->n_meals);
 }
 

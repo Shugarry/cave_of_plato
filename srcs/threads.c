@@ -6,13 +6,13 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 21:39:45 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/07/19 22:24:52 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/07/22 09:39:53 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosphers.h"
 
-bool	thread_error(int status)
+bool	pthread_error(int status)
 {
 	if (status == -1)
 		return (true);
@@ -28,44 +28,41 @@ bool	thread_error(int status)
 		return (true);
 	else if (status == EBUSY)
 		return (true);
+	else if (status == EAGAIN)
+		return (true);
 	return (false);
 }
 
-void	mutex_handler(t_dinnertable *dinnertable, pthread_mutex_t *mutex, t_opt option)
+void	mutex_handler(t_feast *feast, pthread_mutex_t *mutex, t_opt option)
 {
 	int	status;
 
 	status = 0;
-	if (option == LOCK)
+	if (option == O_LOCK)
 		status = pthread_mutex_lock(mutex);
-	else if (option == UNLOCK)
+	else if (option == O_UNLOCK)
 		status = pthread_mutex_unlock(mutex);
-	else if (option == INIT)
+	else if (option == O_INIT)
 		status = pthread_mutex_init(mutex, NULL);
-	else if (option == DESTROY)
+	else if (option == O_DESTROY)
 		status = pthread_mutex_destroy(mutex);
-	else
-		;
-	if (thread_error(status) == true)
-		plato_exit(dinnertable, "Mutex error", status);
+	if (pthread_error(status) == true)
+		plato_exit(feast, "Mutex error", status);
 		
 }
 
-void	thread_handler(t_dinnertable *dinnertable, void *(*func)(void *),
-					void *data, pthread_t *thread, t_opt option)
+void	thread_handler(t_feast *feast, pthread_t *thread,
+					void *(*func)(void *), void *data, t_opt option)
 {
 	int	status;
 
 	status = 0;
-	if (option == CREATE)
+	if (option == O_CREATE)
 		status = pthread_create(thread, NULL, func, data);
-	else if (option == JOIN)
+	else if (option == O_JOIN)
 		status = pthread_join(*thread, NULL);
-	else if (option == DETACH)
+	else if (option == O_DETACH)
 		status = pthread_detach(*thread);
-	else
-		;
-	if (thread_error(status) == true)
-		plato_exit(dinnertable, "Thread error", status);
-		
+	if (pthread_error(status) == true)
+		plato_exit(feast, "Thread error", status);
 }

@@ -12,31 +12,31 @@
 
 #include "../philosphers.h"
 
-void	*memlist_alloc(t_dinnertable *dinnertable, size_t size)
+void	*memlist_alloc(t_feast *feast, size_t size)
 {
 	t_list	*node;
 	void	*ptr;
 
-	if (!dinnertable)
+	if (!feast)
 		return (NULL);
 	ptr = malloc(size);
 	if (!ptr)
-		plato_exit(dinnertable, "Memory allocation failure", EXIT_FAILURE);
+		plato_exit(feast, "Memory allocation failure", EXIT_FAILURE);
 	node = ft_lstnew(ptr);
 	if (!node)
 	{
 		free(ptr);
-		plato_exit(dinnertable, "Memory allocation failure", EXIT_FAILURE);
+		plato_exit(feast, "Memory allocation failure", EXIT_FAILURE);
 	}
-	ft_lstadd_front(&dinnertable->memlist, node);
+	ft_lstadd_front(&feast->memlist, node);
 	return (ptr);
 }
 
-void	*memlist_add(t_dinnertable *dinnertable, void *ptr)
+void	*memlist_add(t_feast *feast, void *ptr)
 {
 	t_list	*node;
 
-	if (!dinnertable)
+	if (!feast)
 		return (NULL);
 	if (!ptr)
 		return (NULL);
@@ -44,28 +44,28 @@ void	*memlist_add(t_dinnertable *dinnertable, void *ptr)
 	if (!node)
 	{
 		free(ptr);
-		plato_exit(dinnertable, "Memory allocation failure", EXIT_FAILURE);
+		plato_exit(feast, "Memory allocation failure", EXIT_FAILURE);
 	}
-	ft_lstadd_front(&dinnertable->memlist, node);
+	ft_lstadd_front(&feast->memlist, node);
 	return (ptr);
 }
 
-void	memlist_free_ptr(t_dinnertable *dinnertable, void *ptr)
+void	memlist_free_ptr(t_feast *feast, void *ptr)
 {
 	t_list	*current;
 	t_list	*prev;
 
-	if (!dinnertable || !ptr || !dinnertable->memlist)
+	if (!feast || !ptr || !feast->memlist)
 		return ;
-	if ((dinnertable->memlist)->content == ptr)
+	if ((feast->memlist)->content == ptr)
 	{
-		current = dinnertable->memlist;
-		dinnertable->memlist = (dinnertable->memlist)->next;
+		current = feast->memlist;
+		feast->memlist = (feast->memlist)->next;
 		ft_lstdelone(current, free);
 		return ;
 	}
-	prev = dinnertable->memlist;
-	current = (dinnertable->memlist)->next;
+	prev = feast->memlist;
+	current = (feast->memlist)->next;
 	while (current)
 	{
 		if (current->content == ptr)

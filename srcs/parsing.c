@@ -48,23 +48,23 @@ static bool	in_bounds(char	*str)
 	return (true);
 }
 
-static void	parse_args(t_dinnertable *dinnertable, char **av)
+static void	parse_args(t_feast *feast, char **av)
 {
-	dinnertable->n_philos = (long)ft_atoi(av[1]);
-	dinnertable->tt_die = (long)ft_atoi(av[2]) * 1e3;
-	dinnertable->tt_eat = (long)ft_atoi(av[3]) * 1e3;
-	dinnertable->tt_sleep = (long)ft_atoi(av[4]) * 1e3;
+	feast->n_philos = (long)ft_atoi(av[1]);
+	feast->tt_die = (long)ft_atoi(av[2]) * 1e3;
+	feast->tt_eat = (long)ft_atoi(av[3]) * 1e3;
+	feast->tt_sleep = (long)ft_atoi(av[4]) * 1e3;
 	if (av[5])
-		dinnertable->n_meals = (long)ft_atoi(av[5]);
+		feast->n_meals = (long)ft_atoi(av[5]);
 	else
-		dinnertable->n_meals = -1;
-	if (dinnertable->tt_die < 6e4 || dinnertable->tt_eat < 6e4
-		|| dinnertable->tt_sleep < 6e4)
+		feast->n_meals = -1;
+	if (feast->tt_die < 6e4 || feast->tt_eat < 6e4
+		|| feast->tt_sleep < 6e4)
 		input_error("Argument options are out of bounds");
 
 }
 
-void	validate_and_parse(t_dinnertable *dinnertable, char **av)
+void	validate_and_parse(t_feast *feast, char **av)
 {
 	int	i;
 
@@ -75,5 +75,5 @@ void	validate_and_parse(t_dinnertable *dinnertable, char **av)
 			input_error("Argument options are out of bounds or non-numeric");
 		i++;
 	}
-	parse_args(dinnertable, av);
+	parse_args(feast, av);
 }
