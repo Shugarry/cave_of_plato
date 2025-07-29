@@ -6,11 +6,11 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:10:57 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/07/17 17:24:09 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:37:30 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philosphers.h"
+#include "../philosophers.h"
 
 size_t	ft_strlen(const char *s)
 {

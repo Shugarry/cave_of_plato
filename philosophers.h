@@ -31,6 +31,16 @@ typedef enum e_timecode
 	MICROSECOND
 }	t_timecode;
 
+typedef enum e_status
+{
+	EAT,
+	SLEEP,
+	THINK,
+	DIE,
+	TAKE_FORK_A,
+	TAKE_FORK_B,
+}	t_status;
+
 typedef struct s_list
 {
 	void			*content;
@@ -47,10 +57,11 @@ typedef struct s_plato
 {
 	int				id;
 	int				n_meals;
-	bool			fed;
+	bool			full;
 	long			time_lastmeal;
 	t_fork			*fork_a;
 	t_fork			*fork_b;
+	pthread_mutex_t	mutex;
 	pthread_t		thread_id;
 	t_feast			*feast;
 }	t_plato;
@@ -65,7 +76,8 @@ typedef struct s_feast
 	t_list			*memlist;
 	t_plato			*philos;
 	t_fork			*forks;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	access_mutex;
+	pthread_mutex_t	write_mutex;
 	long			stopwatch;
 	bool			philosophers_ready;
 	bool			dessert_time;
@@ -110,5 +122,11 @@ bool	get_bool(t_feast *feast, pthread_mutex_t *mutex, bool *var);
 void	set_bool(t_feast *feast, pthread_mutex_t *mutex, bool *var, bool set_to);
 long	get_long(t_feast *feast, pthread_mutex_t *mutex, long *var);
 void	set_long(t_feast *feast, pthread_mutex_t *mutex, long *var, long set_to);
+void	change_plato_status(t_plato *plato, t_status status);
+
+// logic.c
+void	ft_usleep(t_feast *feast, long usec);
+long	get_time(t_feast *feast, t_timecode timecode);
+void	start_feast(t_feast *feast);
 
 #endif

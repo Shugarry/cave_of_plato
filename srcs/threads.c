@@ -6,11 +6,11 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/19 21:39:45 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/07/22 09:39:53 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:51:31 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philosphers.h"
+#include "../philosophers.h"
 
 bool	pthread_error(int status)
 {

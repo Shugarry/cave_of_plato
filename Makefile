@@ -12,18 +12,18 @@
 
 # ================================== VARS ==================================== #
 
-NAME		= philosphers
+NAME		= philosophers
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g #-fsanitize=address #-g
+CFLAGS		= -Wall -Wextra -Werror #-g -fsanitize=address
 
-SRC			= $(addprefix srcs/, main.c helpers.c lists.c memory.c error.c \
-			  parsing.c threads.c)
+SRC			= $(addprefix srcs/, helpers.c lists.c memory.c error.c \
+			  parsing.c threads.c logic.c get_set.c main.c)
 
 OBJ			= $(SRC:.c=.o)
 
 INC 		= -I.
 
-HDR			= philosphers.h
+HDR			= philosophers.h
 
 # ================================== RULES =================================== #
 

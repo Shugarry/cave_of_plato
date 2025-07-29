@@ -6,11 +6,11 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 16:51:09 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/07/17 17:08:07 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:36:47 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philosphers.h"
+#include "../philosophers.h"
 
 void	*memlist_alloc(t_feast *feast, size_t size)
 {

@@ -6,12 +6,11 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 07:15:07 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/07/22 09:59:37 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/07/29 19:32:47 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philosphers.h"
-#include <sys/time.h>
+#include "../philosophers.h"
 
 long	get_time(t_feast *feast, t_timecode timecode)
 {
@@ -30,11 +29,11 @@ long	get_time(t_feast *feast, t_timecode timecode)
 
 void	threads_spinlock(t_feast *feast)
 {
-	while (get_bool(feast, &feast->mutex, &feast->philosophers_ready))
+	while (get_bool(feast, &feast->access_mutex, &feast->philosophers_ready) == false)
 		;
 }
 
-void	ft_usleep(long usec, t_feast *feast)
+void	ft_usleep(t_feast *feast, long usec)
 {
 	long	start;
 	long	elapsed;
@@ -43,7 +42,7 @@ void	ft_usleep(long usec, t_feast *feast)
 	start = get_time(feast, MICROSECOND);
 	while (get_time(feast, MICROSECOND) - start < usec)
 	{
-		if(get_bool(feast, &feast->mutex, &feast->dessert_time) == true)
+		if(get_bool(feast, &feast->access_mutex, &feast->dessert_time) == true)
 			break ;
 		elapsed = get_time(feast, MICROSECOND) - start;
 		remaining = usec - elapsed;
@@ -57,6 +56,25 @@ void	ft_usleep(long usec, t_feast *feast)
 	}
 }
 
+void	plato_eat(t_plato *plato)
+{
+	t_feast	*feast;
+	
+	feast = plato->feast;
+	mutex_handler(feast, &plato->fork_a->fork, O_LOCK);
+	change_plato_status(plato, TAKE_FORK_A);
+	mutex_handler(feast, &plato->fork_b->fork, O_LOCK);
+	change_plato_status(plato, TAKE_FORK_B);
+	set_long(feast, &plato->mutex, &plato->time_lastmeal, get_time(feast, MILLISECOND));
+	plato->n_meals++;
+	change_plato_status(plato, EAT);
+	ft_usleep(feast, feast->tt_eat);
+	if (feast->n_meals > 0 && plato->n_meals == feast->n_meals)
+		set_bool(feast, &plato->mutex, &plato->full, true);
+	mutex_handler(feast, &plato->fork_a->fork, O_UNLOCK);
+	mutex_handler(feast, &plato->fork_b->fork, O_UNLOCK);
+}
+
 void	*feast_logic(void *data)
 {
 	t_plato *plato;
@@ -65,17 +83,14 @@ void	*feast_logic(void *data)
 	plato = (t_plato *)data;
 	feast = plato->feast;
 	threads_spinlock(feast);
-	while (get_bool(feast, &feast->mutex, &feast->dessert_time) == false)
+	while (get_bool(feast, &feast->access_mutex, &feast->dessert_time) == false)
 	{
-		if (plato->fed == true)	
+		if (plato->full == true)	
 			break ;
-
-		// eat(plato);
-
-		// write_plato_status
-		// ft_usleep();
-		
-		// thinking
+		plato_eat(plato);
+		change_plato_status(plato, SLEEP);
+		ft_usleep(feast, feast->tt_sleep);
+		change_plato_status(plato, THINK);
 	}
 	return (NULL);
 }
@@ -98,11 +113,12 @@ void	start_feast(t_feast *feast)
 		while (i < feast->n_philos)
 		{
 			thread_handler(feast, &feast->philos->thread_id, feast_logic, &feast->philos[i], O_CREATE);
+			i++;
 		}
 	}
 
 	feast->stopwatch = get_time(feast, MILLISECOND);
-	set_bool(feast, &feast->mutex, &feast->philosophers_ready, true);
+	set_bool(feast, &feast->access_mutex, &feast->philosophers_ready, true);
 
 	i = 0;
 	while (i < feast->n_philos)

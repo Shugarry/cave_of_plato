@@ -6,11 +6,11 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 17:56:01 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/07/17 17:58:22 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:37:00 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philosphers.h"
+#include "../philosophers.h"
 
 static bool	is_numeric(char	*str)
 {
