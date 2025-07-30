@@ -6,7 +6,7 @@
 #    By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/20 02:23:03 by frey-gal          #+#    #+#              #
-#    Updated: 2025/07/17 18:16:50 by frey-gal         ###   ########.fr        #
+#    Updated: 2025/07/30 07:35:16 by frey-gal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC			= cc
 CFLAGS		= -Wall -Wextra -Werror #-g -fsanitize=address
 
 SRC			= $(addprefix srcs/, helpers.c lists.c memory.c error.c \
-			  parsing.c threads.c logic.c get_set.c main.c)
+			  parsing.c threads.c logic.c get_set.c main.c thread_utils.c)
 
 OBJ			= $(SRC:.c=.o)
 

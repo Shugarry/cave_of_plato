@@ -81,7 +81,7 @@ typedef struct s_feast
 	long			stopwatch;
 	long			threads_running;
 	bool			philosophers_ready;
-	bool			dessert_time;
+	bool			finish;
 	pthread_t		monitor;
 } t_feast;
 
@@ -124,12 +124,13 @@ bool	get_bool(t_feast *feast, pthread_mutex_t *mutex, bool *var);
 void	set_bool(t_feast *feast, pthread_mutex_t *mutex, bool *var, bool set_to);
 long	get_long(t_feast *feast, pthread_mutex_t *mutex, long *var);
 void	set_long(t_feast *feast, pthread_mutex_t *mutex, long *var, long set_to);
-void	change_plato_status(t_plato *plato, t_status status);
 void	increase_long(t_feast *feast, pthread_mutex_t *mutex, long *var);
 
 // logic.c
 void	ft_usleep(t_feast *feast, long usec);
 long	get_time(t_feast *feast, t_timecode timecode);
+void	thread_creation_spinlock(t_feast *feast);
 void	start_feast(t_feast *feast);
+void	change_plato_status(t_plato *plato, t_status status);
 
 #endif
