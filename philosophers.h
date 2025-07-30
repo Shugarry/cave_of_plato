@@ -69,18 +69,20 @@ typedef struct s_plato
 typedef struct s_feast
 {
 	long			n_philos;
-	long			n_meals;
+	long			max_meals;
 	long			tt_die;
 	long			tt_eat;
 	long			tt_sleep;
 	t_list			*memlist;
 	t_plato			*philos;
 	t_fork			*forks;
-	pthread_mutex_t	access_mutex;
+	pthread_mutex_t	data_mutex;
 	pthread_mutex_t	write_mutex;
 	long			stopwatch;
+	long			threads_running;
 	bool			philosophers_ready;
 	bool			dessert_time;
+	pthread_t		monitor;
 } t_feast;
 
 // lists.c
@@ -123,6 +125,7 @@ void	set_bool(t_feast *feast, pthread_mutex_t *mutex, bool *var, bool set_to);
 long	get_long(t_feast *feast, pthread_mutex_t *mutex, long *var);
 void	set_long(t_feast *feast, pthread_mutex_t *mutex, long *var, long set_to);
 void	change_plato_status(t_plato *plato, t_status status);
+void	increase_long(t_feast *feast, pthread_mutex_t *mutex, long *var);
 
 // logic.c
 void	ft_usleep(t_feast *feast, long usec);

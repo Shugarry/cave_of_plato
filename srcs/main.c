@@ -68,7 +68,7 @@ void	init_fork_list(t_feast *feast)
 void	init_table(t_feast *feast)
 {
 	ft_bzero(feast, sizeof(t_feast));
-	mutex_handler(feast, &feast->access_mutex, O_INIT);
+	mutex_handler(feast, &feast->data_mutex, O_INIT);
 	mutex_handler(feast, &feast->write_mutex, O_INIT);
 }
 

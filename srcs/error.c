@@ -12,6 +12,21 @@
 
 #include "../philosophers.h"
 
+void	destroy_mutexes(t_feast *feast)
+{
+	int	i;
+
+	i = 0;
+	while (i < feast->n_philos)
+	{
+		mutex_handler(feast, &feast->philos[i].mutex, O_DESTROY);
+		mutex_handler(feast, &feast->forks[i].fork, O_DESTROY);
+		i++;
+	}
+	mutex_handler(feast, &feast->data_mutex, O_DESTROY);
+	mutex_handler(feast, &feast->write_mutex, O_DESTROY);
+}
+
 void	plato_exit(t_feast *feast, char *error_str, int error_num)
 {
 	ft_lstclear(&feast->memlist, free);
@@ -39,6 +54,6 @@ void	debug_vars(t_feast *feast)
 	printf("b: %ld in microsecs\n", feast->tt_die);
 	printf("c: %ld in microsecs\n", feast->tt_eat);
 	printf("d: %ld in microsecs\n", feast->tt_sleep);
-	printf("e: %ld times to eat\n", feast->n_meals);
+	printf("e: %ld times to eat\n", feast->max_meals);
 }
 

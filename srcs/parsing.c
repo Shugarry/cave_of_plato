@@ -55,13 +55,9 @@ static void	parse_args(t_feast *feast, char **av)
 	feast->tt_eat = (long)ft_atoi(av[3]) * 1e3;
 	feast->tt_sleep = (long)ft_atoi(av[4]) * 1e3;
 	if (av[5])
-		feast->n_meals = (long)ft_atoi(av[5]);
+		feast->max_meals = (long)ft_atoi(av[5]);
 	else
-		feast->n_meals = -1;
-	if (feast->tt_die < 6e4 || feast->tt_eat < 6e4
-		|| feast->tt_sleep < 6e4)
-		input_error("Argument options are out of bounds");
-
+		feast->max_meals = -1;
 }
 
 void	validate_and_parse(t_feast *feast, char **av)
