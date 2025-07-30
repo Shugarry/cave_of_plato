@@ -12,9 +12,9 @@
 
 # ================================== VARS ==================================== #
 
-NAME		= philosophers
+NAME		= philo
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -fsanitize=thread #-g 
 
 SRC			= $(addprefix srcs/, helpers.c lists.c memory.c error.c \
 			  parsing.c threads.c logic.c get_set.c main.c thread_utils.c \

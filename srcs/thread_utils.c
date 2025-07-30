@@ -81,21 +81,21 @@ void	change_plato_status(t_plato *plato, t_status status)
 	mutex_handler(f, &f->write_mutex, O_LOCK);
 	if (TAKE_FORK_A == status && !get_bool(f, &f->data_mutex, &f->finish))
 	{
-		printf("TIME: %-6ld | Philosopher %d has taken a fork [%d]\n",
-			ms, plato->id, plato->fork_a->id);
+		printf("%-6ld	%d has taken a fork\n",
+			ms, plato->id);
 	}
 	else if (TAKE_FORK_B == status && !get_bool(f, &f->data_mutex, &f->finish))
 	{
-		printf("TIME: %-6ld | Philosopher %d has taken a fork [%d]\n",
-			ms, plato->id, plato->fork_b->id);
+		printf("%-6ld	%d has taken a fork\n",
+			ms, plato->id);
 	}
 	else if (EAT == status && !get_bool(f, &f->data_mutex, &f->finish))
-		printf("TIME: %-6ld | Philosopher %d is eating\n", ms, plato->id);
+		printf("%-6ld	%d is eating\n", ms, plato->id);
 	else if (SLEEP == status && !get_bool(f, &f->data_mutex, &f->finish))
-		printf("TIME: %-6ld | Philosopher %d is sleeping\n", ms, plato->id);
+		printf("%-6ld	%d is sleeping\n", ms, plato->id);
 	else if (THINK == status && !get_bool(f, &f->data_mutex, &f->finish))
-		printf("TIME: %-6ld | Philosopher %d is thinking\n", ms, plato->id);
+		printf("%-6ld	%d is thinking\n", ms, plato->id);
 	else if (DIE == status && !get_bool(f, &f->data_mutex, &f->finish))
-		printf("TIME: %-6ld | Philosopher %d has died\n", ms, plato->id);
+		printf("%-6ld	%d died\n", ms, plato->id);
 	mutex_handler(f, &f->write_mutex, O_UNLOCK);
 }

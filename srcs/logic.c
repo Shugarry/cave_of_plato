@@ -80,6 +80,9 @@ void	*single_plato(void *data)
 	plato = (t_plato *)data;
 	feast = plato->feast;
 	thread_creation_spinlock(feast);
+	increase_long(feast, &feast->data_mutex, &feast->threads_running);
+	set_long(feast, &plato->mutex,
+		&plato->t_lastmeal, get_time(feast, MILLISECOND));
 	change_plato_status(plato, TAKE_FORK_A);
 	while (get_bool(feast, &feast->data_mutex, &feast->finish) == false)
 		usleep(200);
@@ -107,10 +110,10 @@ void	start_feast(t_feast *feast)
 	}
 	thread_create(feast, &feast->monitor, monitor_feast, feast);
 	feast->stopwatch = get_time(feast, MILLISECOND);
-	set_bool(feast, &feast->write_mutex, &feast->philosophers_ready, true);
+	set_bool(feast, &feast->data_mutex, &feast->philosophers_ready, true);
 	i = 0;
 	while (i < feast->n_philos)
 		thread_handler(feast, &feast->philos[i++].thread_id, O_JOIN);
-	set_bool(feast, &feast->write_mutex, &feast->finish, true);
+	set_bool(feast, &feast->data_mutex, &feast->finish, true);
 	thread_handler(feast, &feast->monitor, O_JOIN);
 }

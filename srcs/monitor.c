@@ -54,7 +54,7 @@ void	*monitor_feast(void *data)
 			if (check_vitals(feast, &feast->philos[i]) == false)
 			{
 				change_plato_status(&feast->philos[i], DIE);
-				set_bool(feast, &feast->write_mutex, &feast->finish, true);
+				set_bool(feast, &feast->data_mutex, &feast->finish, true);
 			}
 			i++;
 		}
