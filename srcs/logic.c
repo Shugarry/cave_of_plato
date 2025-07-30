@@ -6,7 +6,7 @@
 /*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 07:15:07 by frey-gal          #+#    #+#             */
-/*   Updated: 2025/07/30 10:20:39 by frey-gal         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:23:38 by frey-gal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	start_feast(t_feast *feast)
 		return ;
 	else if (feast->n_philos == 1)
 		thread_handler(feast, &feast->philos[0].thread_id, single_plato, &feast->philos[i], O_CREATE);
-	else if (feast->max_meals == -1)
+	else
 	{
 		while (i < feast->n_philos)
 		{
