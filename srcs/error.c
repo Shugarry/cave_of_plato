@@ -56,4 +56,3 @@ void	debug_vars(t_feast *feast)
 	printf("d: %ld in microsecs\n", feast->tt_sleep);
 	printf("e: %ld times to eat\n", feast->max_meals);
 }
-

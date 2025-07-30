@@ -12,16 +12,6 @@
 
 #include "../philosophers.h"
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
 int	ft_isdigit(int c)
 {
 	if ((c > 47 && c < 58))
@@ -38,9 +28,9 @@ int	ft_isalpha(int c)
 		return (0);
 }
 
-void    ft_bzero(void *s, size_t n)
+void	ft_bzero(void *s, size_t n)
 {
-	char    *ptr;
+	char	*ptr;
 
 	ptr = s;
 	while (n--)
@@ -78,9 +68,9 @@ int	ft_atoi(const char *nptr)
 		nptr++;
 	else if (*nptr == '-')
 	{
-	nptr++;
-	flag++;
-}
+		nptr++;
+		flag++;
+	}
 	while (*nptr > 47 && *nptr < 58)
 	{
 		n *= 10;

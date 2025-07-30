@@ -6,7 +6,7 @@
 #    By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/20 02:23:03 by frey-gal          #+#    #+#              #
-#    Updated: 2025/07/30 07:35:16 by frey-gal         ###   ########.fr        #
+#    Updated: 2025/07/30 11:55:17 by frey-gal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,11 @@
 
 NAME		= philosophers
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -g #-fsanitize=address
 
 SRC			= $(addprefix srcs/, helpers.c lists.c memory.c error.c \
-			  parsing.c threads.c logic.c get_set.c main.c thread_utils.c)
+			  parsing.c threads.c logic.c get_set.c main.c thread_utils.c \
+			  monitor.c)
 
 OBJ			= $(SRC:.c=.o)
 

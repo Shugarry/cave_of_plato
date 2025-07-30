@@ -78,4 +78,3 @@ void	memlist_free_ptr(t_feast *feast, void *ptr)
 		current = current->next;
 	}
 }
-

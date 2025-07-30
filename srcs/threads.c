@@ -12,7 +12,7 @@
 
 #include "../philosophers.h"
 
-bool	pthread_error(int status)
+static bool	pthread_error(int status)
 {
 	if (status == -1)
 		return (true);
@@ -48,18 +48,25 @@ void	mutex_handler(t_feast *feast, pthread_mutex_t *mutex, t_opt option)
 		status = pthread_mutex_destroy(mutex);
 	if (pthread_error(status) == true)
 		plato_exit(feast, "Mutex error", status);
-		
 }
 
-void	thread_handler(t_feast *feast, pthread_t *thread,
-					void *(*func)(void *), void *data, t_opt option)
+void	thread_create(t_feast *feast, pthread_t *thread,
+					void *(*func)(void *), void *data)
 {
 	int	status;
 
 	status = 0;
-	if (option == O_CREATE)
-		status = pthread_create(thread, NULL, func, data);
-	else if (option == O_JOIN)
+	status = pthread_create(thread, NULL, func, data);
+	if (pthread_error(status) == true)
+		plato_exit(feast, "Thread error", status);
+}
+
+void	thread_handler(t_feast *feast, pthread_t *thread, t_opt option)
+{
+	int	status;
+
+	status = 0;
+	if (option == O_JOIN)
 		status = pthread_join(*thread, NULL);
 	else if (option == O_DETACH)
 		status = pthread_detach(*thread);

@@ -72,7 +72,7 @@ void	init_table(t_feast *feast)
 	mutex_handler(feast, &feast->write_mutex, O_INIT);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_feast	feast;
 
@@ -83,6 +83,5 @@ int main(int ac, char **av)
 	init_fork_list(&feast);
 	init_philo_list(&feast);
 	start_feast(&feast);
-	//debug_vars(&feast);
 	plato_exit(&feast, NULL, EXIT_SUCCESS);
 }

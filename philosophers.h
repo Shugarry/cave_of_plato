@@ -1,5 +1,17 @@
-#ifndef PHILOSPHERS_H
-# define PHILOSPHERS_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frey-gal <frey-gal@student.42barcelona.co  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/30 11:53:38 by frey-gal          #+#    #+#             */
+/*   Updated: 2025/07/30 11:54:40 by frey-gal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PHILOSOPHERS_H
+# define PHILOSOPHERS_H
 
 # include <pthread.h>
 # include <bits/pthreadtypes.h>
@@ -58,7 +70,7 @@ typedef struct s_plato
 	int				id;
 	int				n_meals;
 	bool			full;
-	long			time_lastmeal;
+	long			t_lastmeal;
 	t_fork			*fork_a;
 	t_fork			*fork_b;
 	pthread_mutex_t	mutex;
@@ -83,7 +95,7 @@ typedef struct s_feast
 	bool			philosophers_ready;
 	bool			finish;
 	pthread_t		monitor;
-} t_feast;
+}	t_feast;
 
 // lists.c
 t_list	*ft_lstnew(void *content);
@@ -112,25 +124,33 @@ void	plato_exit(t_feast *feast, char *error_str, int error_num);
 void	input_error(char *message);
 void	debug_vars(t_feast *feast);
 
-void	plato_exit(t_feast *feast, char *error_str, int error_num);
-
 // threads.c
-void	thread_handler(t_feast *feast, pthread_t *thread,
-					void *(*func)(void *), void *data, t_opt option);
+void	thread_handler(t_feast *feast, pthread_t *thread, t_opt option);
+void	thread_create(t_feast *feast, pthread_t *thread,
+			void *(*func)(void *), void *data);
 void	mutex_handler(t_feast *feast, pthread_mutex_t *mutex, t_opt option);
 
 // getset.c
 bool	get_bool(t_feast *feast, pthread_mutex_t *mutex, bool *var);
-void	set_bool(t_feast *feast, pthread_mutex_t *mutex, bool *var, bool set_to);
+void	set_bool(t_feast *feast, pthread_mutex_t *mutex,
+			bool *var, bool set_to);
 long	get_long(t_feast *feast, pthread_mutex_t *mutex, long *var);
-void	set_long(t_feast *feast, pthread_mutex_t *mutex, long *var, long set_to);
+void	set_long(t_feast *feast, pthread_mutex_t *mutex,
+			long *var, long set_to);
 void	increase_long(t_feast *feast, pthread_mutex_t *mutex, long *var);
 
-// logic.c
+// thread_utils.c
 void	ft_usleep(t_feast *feast, long usec);
 long	get_time(t_feast *feast, t_timecode timecode);
 void	thread_creation_spinlock(t_feast *feast);
-void	start_feast(t_feast *feast);
+void	desynchronize(t_plato *plato);
 void	change_plato_status(t_plato *plato, t_status status);
+
+// monitor.c
+void	*monitor_feast(void *data);
+
+// logic.c
+void	thinking(t_plato *plato, bool output_status_flag);
+void	start_feast(t_feast *feast);
 
 #endif
